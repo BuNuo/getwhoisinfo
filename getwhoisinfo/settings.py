@@ -33,7 +33,8 @@ DOWNLOAD_DELAY = 3
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-COOKIES_ENABLED = False
+# COOKIES_ENABLED = False
+COOKIES_ENABLED = True
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
@@ -46,9 +47,10 @@ COOKIES_ENABLED = False
 
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    'getwhoisinfo.middlewares.GetwhoisinfoSpiderMiddleware': 543,
-#}
+SPIDER_MIDDLEWARES = {
+   # 'getwhoisinfo.middlewares.GetwhoisinfoSpiderMiddleware': 543,
+   #  'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
+}
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
@@ -56,6 +58,9 @@ DOWNLOADER_MIDDLEWARES = {
    # 'getwhoisinfo.middlewares.GetwhoisinfoDownloaderMiddleware': 543,
     'getwhoisinfo.middlewares.RandomUserAgent': 543,
     'getwhoisinfo.middlewares.ProxyMiddleware': 542,
+    # 'scrapy_splash.SplashCookiesMiddleware': 723,
+    # 'scrapy_splash.SplashMiddleware': 725,
+    # 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
 }
 
 # Enable or disable extensions
@@ -120,5 +125,11 @@ MY_USER_AGENT_LIST = [
 MY_PROXIES_LIST = [
     {'ip_port': 'https://61.160.247.63:808'},
     {'ip_port': 'http://61.138.33.20:808'},
-    {'ip_port': 'http://61.135.217.7:80'},
 ]
+
+# SPLASH_URL = 'http://39.105.189.248:8050/'
+#
+# DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
+#
+# HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
+
