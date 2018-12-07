@@ -8,8 +8,8 @@ from bs4 import BeautifulSoup
 import requests
 import random
 
-def get_ip_list(url, headers):
-    web_data = requests.get(url, headers=headers)
+def get_ip_list(url, proxies, headers):
+    web_data = requests.get(url, proxies=proxies, headers=headers)
     soup = BeautifulSoup(web_data.text, 'lxml')
     ips = soup.find_all('tr')
     ip_list = []
@@ -17,10 +17,31 @@ def get_ip_list(url, headers):
         ip_info = ips[i]
         tds = ip_info.find_all('td')
         country = tds[0]
+        area = tds[3]
         protocol = tds[5]
         speed = tds[6]
-        if len(country) != 0 and speed.find(attrs={"class":"bar_inner fast"}) :
-            ip_list.append(protocol.text.lower() + '://' + tds[1].text + ':' + tds[2].text)
+        linkDate = tds[7]
+        existDate = tds[8]
+
+        if not len(country) != 0:
+            continue
+
+        # if area.find('a').text != '北京':
+        #     continue
+
+        if not speed.find(attrs={"class":"bar_inner fast"}):
+            continue
+
+        if not linkDate.find(attrs={"class":"bar_inner fast"}):
+            continue
+
+        speedDiv = speed.find(attrs={"class":"bar_inner fast"})
+        if speedDiv.has_attr('style'):
+            spd = speedDiv.get('style').split(':')[1].strip('%') #速度
+            if '天' in existDate.text:
+                exd = existDate.text.strip('天')
+                if int(exd) >= 100 and int(spd) >= 10:
+                    ip_list.append(protocol.text.lower() + '://' + tds[1].text + ':' + tds[2].text)
     return ip_list
 
 def get_random_ip(ip_list):
@@ -31,12 +52,22 @@ def get_random_ip(ip_list):
     proxies = {'http': proxy_ip}
     return proxies
 
-if __name__ == '__main__':
-    page = random.randint(2, 100)
-    url = 'http://www.xicidaili.com/nn/'+ str(page)
+def sendRequest(page):
+    print(page)
+    url = 'http://www.xicidaili.com/nn/' + str(page)
+    proxies = {'http': 'http://139.129.207.72:808', 'https': 'https://162.105.87.211:8118'}
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'
     }
-    ip_list = get_ip_list(url, headers=headers)
+    return get_ip_list(url, proxies=proxies,headers=headers)
+
+if __name__ == '__main__':
+    page = 1
+
+    ip_list = []
+    while not ip_list:
+        ip_list = sendRequest(page)
+        page+=1
+
     proxies = get_random_ip(ip_list)
     print(proxies)

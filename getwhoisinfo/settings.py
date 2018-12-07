@@ -71,9 +71,9 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'getwhoisinfo.pipelines.GetwhoisinfoPipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'getwhoisinfo.pipelines.GetwhoisinfoPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
@@ -123,8 +123,9 @@ MY_USER_AGENT_LIST = [
 
 
 MY_PROXIES_LIST = [
-    {'ip_port': 'https://61.160.247.63:808'},
-    {'ip_port': 'http://61.138.33.20:808'},
+    {'ip_port': 'http://139.129.207.72:808'},
+    {'ip_port': 'http://123.117.234.177:8118'},
+    {'ip_port': 'https://162.105.87.211:8118'},
 ]
 
 # SPLASH_URL = 'http://39.105.189.248:8050/'

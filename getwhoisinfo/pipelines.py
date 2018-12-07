@@ -8,4 +8,5 @@
 
 class GetwhoisinfoPipeline(object):
     def process_item(self, item, spider):
-        return item
+        pass
+        #return item
