@@ -7,6 +7,21 @@
 from bs4 import BeautifulSoup
 import requests
 import random
+import telnetlib
+
+def get_ip_status(ip,port):
+    server = telnetlib.Telnet()
+    result = False
+    try:
+        server.open(ip,port,15)
+        result = True
+        print('{0} port {1} is open'.format(ip, port))
+    except Exception as err:
+        print('{0} port {1} is not open'.format(ip,port))
+    finally:
+        server.close()
+
+    return result
 
 def get_ip_list(url, proxies, headers):
     web_data = requests.get(url, proxies=proxies, headers=headers)
@@ -41,7 +56,8 @@ def get_ip_list(url, proxies, headers):
             if '天' in existDate.text:
                 exd = existDate.text.strip('天')
                 if int(exd) >= 100 and int(spd) >= 10:
-                    ip_list.append(protocol.text.lower() + '://' + tds[1].text + ':' + tds[2].text)
+                    if get_ip_status(tds[1].text, tds[2].text):
+                        ip_list.append(protocol.text.lower() + '://' + tds[1].text + ':' + tds[2].text)
     return ip_list
 
 def get_random_ip(ip_list):
@@ -55,7 +71,7 @@ def get_random_ip(ip_list):
 def sendRequest(page):
     print(page)
     url = 'http://www.xicidaili.com/nn/' + str(page)
-    proxies = {'http': 'http://139.129.207.72:808', 'https': 'https://162.105.87.211:8118'}
+    proxies = {'http': 'http://119.29.241.209:808'}
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'
     }

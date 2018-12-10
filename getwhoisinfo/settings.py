@@ -123,9 +123,8 @@ MY_USER_AGENT_LIST = [
 
 
 MY_PROXIES_LIST = [
-    {'ip_port': 'http://139.129.207.72:808'},
-    {'ip_port': 'http://123.117.234.177:8118'},
-    {'ip_port': 'https://162.105.87.211:8118'},
+    {'ip_port': 'https://14.118.135.10:808'},
+    {'ip_port': 'http://210.72.14.142:80'},
 ]
 
 # SPLASH_URL = 'http://39.105.189.248:8050/'

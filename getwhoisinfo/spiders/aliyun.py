@@ -10,7 +10,7 @@ from lxml import etree
 class AliyunSpider(scrapy.Spider):
     name = 'aliyun'
     allowed_domains = ['aliyun.com']
-    domains = 'liaoru.com'
+    domains = 'iou.com'
     start_urls = ['https://whois.aliyun.com/whois/domain/'+domains]
 
 
@@ -35,21 +35,22 @@ class AliyunSpider(scrapy.Spider):
 
     def parse2(self, response):
         jsonObj = json.loads(response.text)
-        print(jsonObj)
+        #print(jsonObj)
         code = jsonObj['code']
         if code == '1000':
             item = GetwhoisinfoItem()
             module = jsonObj['module']
-            registrantOrganization = module['registrantOrganization']
-            registrar = module['registrar']
-            standardFormatExpirationDate = module['standardFormatExpirationDate']
-            registrarExpirationDateDayOfYearIntervals = module['registrarExpirationDateDayOfYearIntervals']
-            registrantEmail = module['registrantEmail']
-            formatExpirationDate = module['formatExpirationDate']
-            formatCreationDate = module['formatCreationDate']
-            statusInfos = module['statusInfos']
-            expirationDate = module['expirationDate']
-            creationDate = module['creationDate']
+            print(module)
+            registrantOrganization = module.get('registrantOrganization')
+            registrar = module.get('registrar')
+            standardFormatExpirationDate = module.get('standardFormatExpirationDate')
+            registrarExpirationDateDayOfYearIntervals = module.get('registrarExpirationDateDayOfYearIntervals')
+            registrantEmail = module.get('registrantEmail')
+            formatExpirationDate = module.get('formatExpirationDate')
+            formatCreationDate = module.get('formatCreationDate')
+            statusInfos = module.get('statusInfos')
+            expirationDate = module.get('expirationDate')
+            creationDate = module.get('creationDate')
             print(expirationDate)
             print(statusInfos)
 
